@@ -31,6 +31,4 @@ const SpotlightPage = () => {
       <SpotlightPiece piece={spotlightPiece} />
     </PageContainer>
   );
-};
 
-export default SpotlightPage;
