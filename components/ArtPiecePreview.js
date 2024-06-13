@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 const StyledDiv = styled.div`
   display: inline-grid;
+  justify-content: space-around;
   gap: 10px;
   padding: 20px;
-  margin: 30px;
+  margin: 50px;
 `;
 
 const ArtPiecePreview = ({ image, title, artist }) => {
