@@ -4,7 +4,6 @@ import styled from "styled-components";
 
 const StyledH1 = styled.h1`
   text-align: center;
-  margin-top: 0;
 `;
 
 const PageContainer = styled.div`
@@ -13,7 +12,7 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 10px;
+  margin-top: -30px;
 `;
 
 const SpotlightPage = () => {

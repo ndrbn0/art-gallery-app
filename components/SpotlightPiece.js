@@ -14,10 +14,11 @@ const SpotlightContainer = styled.div`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   margin: 20px;
   max-width: 500px;
+  height: 500px;
 
   &:hover {
     transform: scale(1.05);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
   }
 `;
 
@@ -28,9 +29,8 @@ const ArtistName = styled.p`
 `;
 
 const ImageWrapper = styled.div`
-  position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 
   border-radius: 10px;
   overflow: hidden;
@@ -39,21 +39,19 @@ const ImageWrapper = styled.div`
 
 const SpotlightPiece = ({ piece }) => {
   return (
-    <div>
-      <SpotlightContainer>
-        <ImageWrapper>
-          <Image
-            src={piece.imageSource}
-            alt={piece.name}
-            width={400}
-            height={400}
-            layout="responsive"
-          />
-        </ImageWrapper>
-        <h3>{piece.name}</h3>
-        <ArtistName>By {piece.artist}</ArtistName>
-      </SpotlightContainer>
-    </div>
+    <SpotlightContainer>
+      <ImageWrapper>
+        <Image
+          src={piece.imageSource}
+          alt={piece.name}
+          width={400}
+          height={400}
+          layout="responsive"
+        />
+      </ImageWrapper>
+      <h3>{piece.name}</h3>
+      <ArtistName>By {piece.artist}</ArtistName>
+    </SpotlightContainer>
   );
 };
 

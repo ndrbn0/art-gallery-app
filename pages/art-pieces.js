@@ -10,7 +10,7 @@ const ArtPiecesPage = () => {
   const { artPieces, error } = useArtPieces();
 
   if (error) return <div>Error loading art pieces.</div>;
-  if (!artPieces.length) return <div>Loading...</div>;
+  if (!artPieces || !artPieces.length) return <div>Loading...</div>;
 
   return (
     <div>
