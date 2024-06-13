@@ -11,7 +11,7 @@ const StyledDiv = styled.div`
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   height: 399px;
-  min-width: 220px;
+  min-width: 260px;
   flex-direction: column;
   align-items: center;
   flex: 1 0 0;
