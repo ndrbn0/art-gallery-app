@@ -1,10 +1,15 @@
-import GlobalStyle from "../styles";
+import { ArtPiecesProvider } from "../contexts/ArtPiecesContext";
+import Layout from "../components/Layout";
+import "../styles";
 
-export default function App({ Component, pageProps }) {
+function MyApp({ Component, pageProps }) {
   return (
-    <>
-      <GlobalStyle />
-      <Component {...pageProps} />
-    </>
+    <ArtPiecesProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ArtPiecesProvider>
   );
 }
+
+export default MyApp;
