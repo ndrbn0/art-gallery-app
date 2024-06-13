@@ -42,8 +42,8 @@ const Nav = styled.nav`
 const Navigation = () => {
   return (
     <Nav>
-      <StyledLink href="/">Spotlight</StyledLink>
       <StyledLink href="/art-pieces">Pieces</StyledLink>
+      <StyledLink href="/">Spotlight</StyledLink>
     </Nav>
   );
 };

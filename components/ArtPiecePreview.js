@@ -2,7 +2,6 @@ import Image from "next/image";
 import styled from "styled-components";
 
 const StyledDiv = styled.div`
-  display: inline-grid;
   gap: 10px;
   padding: 20px;
   margin: 30px;
@@ -10,6 +9,12 @@ const StyledDiv = styled.div`
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  height: 399px;
+  min-width: 220px;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
 
   &:hover {
     transform: scale(1.05);
