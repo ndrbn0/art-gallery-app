@@ -4,7 +4,6 @@ import styled from "styled-components";
 const StyledDiv = styled.div`
   display: inline-grid;
   gap: 10px;
-  justfiy-content: space-around;
   padding: 20px;
   margin: 30px;
 `;
