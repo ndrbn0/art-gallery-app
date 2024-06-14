@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const StyledLink = styled(Link)`
   color: #e19093;
-  text-decoration: none;
+  text-decoration: none; // Remove underline
   font-weight: bold;
   position: relative;
   display: inline-block;
