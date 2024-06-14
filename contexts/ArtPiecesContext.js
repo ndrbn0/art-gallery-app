@@ -21,7 +21,7 @@ export const ArtPiecesProvider = ({ children }) => {
   }, [data]);
 
   return (
-    <ArtPiecesContext.Provider value={{ artPieces, error }}>
+    <ArtPiecesContext.Provider value={{ artPieces: artPieces || [], error }}>
       {children}
     </ArtPiecesContext.Provider>
   );
