@@ -11,6 +11,7 @@ const StyledDiv = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
+
   flex-direction: column;
   align-items: center;
   flex: 1 0 300px; /* Set a fixed size for the containers */
