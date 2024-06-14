@@ -3,9 +3,7 @@ import useSWR from "swr";
 
 const ArtPiecesContext = createContext();
 
-export const useArtPieces = () => {
-  return useContext(ArtPiecesContext);
-};
+export const useArtPieces = () => useContext(ArtPiecesContext);
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -15,13 +13,33 @@ export const ArtPiecesProvider = ({ children }) => {
     fetcher
   );
   const [artPieces, setArtPieces] = useState([]);
+  const [artPiecesInfo, setArtPiecesInfo] = useState([]);
 
   useEffect(() => {
     if (data) setArtPieces(data);
   }, [data]);
 
+  const toggleFavorite = (slug) => {
+    const foundArtPiece = artPiecesInfo.find(
+      (artPiece) => slug === artPiece.slug
+    );
+    if (foundArtPiece) {
+      setArtPiecesInfo(
+        artPiecesInfo.map((artPiece) =>
+          artPiece.slug === slug
+            ? { ...artPiece, isFavorite: !artPiece.isFavorite }
+            : artPiece
+        )
+      );
+    } else {
+      setArtPiecesInfo([...artPiecesInfo, { slug, isFavorite: true }]);
+    }
+  };
+
   return (
-    <ArtPiecesContext.Provider value={{ artPieces: artPieces || [], error }}>
+    <ArtPiecesContext.Provider
+      value={{ artPieces, artPiecesInfo, error, toggleFavorite }}
+    >
       {children}
     </ArtPiecesContext.Provider>
   );

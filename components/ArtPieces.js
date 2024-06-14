@@ -6,6 +6,7 @@ const GridContainer = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 30px;
   padding: 20px;
+  margin-top: -45px;
 `;
 
 const ArtPieces = ({ pieces = [] }) => {

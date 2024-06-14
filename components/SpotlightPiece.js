@@ -1,5 +1,7 @@
 import Image from "next/image";
 import styled from "styled-components";
+import FavoriteButton from "./FavoriteButton";
+import { useArtPieces } from "../contexts/ArtPiecesContext";
 
 const SpotlightContainer = styled.div`
   display: flex;
@@ -31,26 +33,34 @@ const ArtistName = styled.p`
 const ImageWrapper = styled.div`
   width: 100%;
   max-width: 500px;
-
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const SpotlightPiece = ({ piece }) => {
+  const { artPiecesInfo, toggleFavorite } = useArtPieces();
+  const isFavorite = artPiecesInfo.find(
+    (artPiece) => artPiece.slug === piece.slug
+  )?.isFavorite;
+
   return (
     <SpotlightContainer>
       <ImageWrapper>
         <Image
           src={piece.imageSource}
           alt={piece.name}
-          width={260} // Fixed size
-          height={260} // Fixed size
+          width={400}
+          height={400}
           layout="responsive"
         />
       </ImageWrapper>
       <h3>{piece.name}</h3>
       <ArtistName>By {piece.artist}</ArtistName>
+      <FavoriteButton
+        isFavorite={isFavorite}
+        toggleFavorite={() => toggleFavorite(piece.slug)} // Pass the handler function
+      />
     </SpotlightContainer>
   );
 };

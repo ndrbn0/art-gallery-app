@@ -1,11 +1,15 @@
+import React, { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
+import ArtPieceDetails from "./ArtPieceDetails";
+import { useArtPieces } from "@/contexts/ArtPiecesContext";
 
 const StyledDiv = styled.div`
   gap: 10px;
   padding: 20px;
-  margin: 20px; // Adjusted margin to make spacing more consistent
+  margin: 20px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -13,8 +17,9 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 0 0 300px; // Fixed size
-  height: 400px; // Fixed size
+  flex: 1 0 300px;
+  max-width: 300px; // Added max-width to prevent overflow
+  height: 500px; // Changed height to auto for responsiveness
 
   &:hover {
     transform: scale(1.05);
@@ -24,11 +29,45 @@ const StyledDiv = styled.div`
 
 const ImageWrapper = styled.div`
   width: 100%;
-  max-width: 260px; // Fixed size
-  height: 260px; // Fixed size
-  border-radius: 10px;
+  padding-top: 100%;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  & img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+`;
+
+const StyledH2 = styled.h2`
+  color: #e19093;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+  transition: color 0.3s ease-in-out;
+
+  &::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffa500;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+  }
+
+  &:hover {
+    color: #ffc525;
+  }
 `;
 
 const CustomLink = styled(Link)`
@@ -37,22 +76,28 @@ const CustomLink = styled(Link)`
 `;
 
 const ArtPiecePreview = ({ slug, image, title, artist }) => {
+  const { toggleFavorite, artPiecesInfo } = useArtPieces();
+
+  const isFavorite = artPiecesInfo.find(
+    (artPiece) => artPiece.slug === slug
+  )?.isFavorite;
+
+  console.log("API ArtPiecePreview", artPiecesInfo);
+
   return (
-    <CustomLink href={`/art-pieces/${slug}`} passHref>
-      <StyledDiv>
+    <StyledDiv>
+      <CustomLink href={`/art-pieces/${slug}`}>
         <ImageWrapper>
-          <Image
-            src={image}
-            alt={title}
-            width={260}
-            height={260}
-            layout="responsive"
-          />
+          <Image src={image} alt={title} layout="fill" />
         </ImageWrapper>
-        <h2>{title}</h2>
+        <StyledH2>{title}</StyledH2>
         <p>By {artist}</p>
-      </StyledDiv>
-    </CustomLink>
+      </CustomLink>
+      <FavoriteButton
+        isFavorite={isFavorite}
+        toggleFavorite={() => toggleFavorite(slug)}
+      />
+    </StyledDiv>
   );
 };
 
