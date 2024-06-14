@@ -15,7 +15,7 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden; /* Ensure the image doesn't overflow the container */
+  overflow: hidden;
   position: relative;
 
   &:hover {
@@ -25,19 +25,19 @@ const StyledContainer = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: calc(100% - 20px); /* Subtract the padding */
+  width: calc(100% - 20px);
   height: 60%;
-  padding: 10px; /* Add padding around the image */
-  box-sizing: border-box; /* Include padding in the width and height */
+  padding: 10px;
+  box-sizing: border-box;
   position: relative;
-  border-radius: 10px; /* Match the border-radius to the container */
-  overflow: hidden; /* Ensure the image doesn't overflow the container */
+  border-radius: 10px;
+  overflow: hidden;
 `;
 
 const StyledContent = styled.div`
   padding: 10px;
   text-align: center;
-  width: 100%; /* Ensure the content takes the full width */
+  width: 100%;
 `;
 
 const Title = styled.h2`

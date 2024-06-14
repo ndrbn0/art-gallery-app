@@ -1,3 +1,4 @@
+import React, { useMemo } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import FavoriteButton from "./FavoriteButton";
@@ -40,26 +41,32 @@ const ImageWrapper = styled.div`
 
 const SpotlightPiece = ({ piece }) => {
   const { artPiecesInfo, toggleFavorite } = useArtPieces();
+
   const isFavorite = artPiecesInfo.find(
     (artPiece) => artPiece.slug === piece.slug
   )?.isFavorite;
 
+  const memoizedImage = useMemo(
+    () => (
+      <Image
+        src={piece.imageSource}
+        alt={piece.name}
+        width={400}
+        height={400}
+        layout="responsive"
+      />
+    ),
+    [piece.imageSource, piece.name]
+  );
+
   return (
     <SpotlightContainer>
-      <ImageWrapper>
-        <Image
-          src={piece.imageSource}
-          alt={piece.name}
-          width={400}
-          height={400}
-          layout="responsive"
-        />
-      </ImageWrapper>
+      <ImageWrapper>{memoizedImage}</ImageWrapper>
       <h3>{piece.name}</h3>
       <ArtistName>By {piece.artist}</ArtistName>
       <FavoriteButton
         isFavorite={isFavorite}
-        toggleFavorite={() => toggleFavorite(piece.slug)} // Pass the handler function
+        toggleFavorite={() => toggleFavorite()}
       />
     </SpotlightContainer>
   );
