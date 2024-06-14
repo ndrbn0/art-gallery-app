@@ -1,14 +1,12 @@
-import React, { useState } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
-import ArtPieceDetails from "./ArtPieceDetails";
 import { useArtPieces } from "@/contexts/ArtPiecesContext";
 
-const StyledDiv = styled.div`
-  gap: 10px;
-  padding: 20px;
+const StyledContainer = styled.div`
+  width: 300px;
+  height: 380px;
   margin: 20px;
   background-color: #fff;
   border-radius: 15px;
@@ -17,9 +15,8 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1 0 300px;
-  max-width: 300px; // Added max-width to prevent overflow
-  height: 500px; // Changed height to auto for responsiveness
+  overflow: hidden; /* Ensure the image doesn't overflow the container */
+  position: relative;
 
   &:hover {
     transform: scale(1.05);
@@ -28,51 +25,47 @@ const StyledDiv = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 100%;
-  padding-top: 100%;
+  width: calc(100% - 20px); /* Subtract the padding */
+  height: 60%;
+  padding: 10px; /* Add padding around the image */
+  box-sizing: border-box; /* Include padding in the width and height */
   position: relative;
-  overflow: hidden;
-  border-radius: 10px;
-
-  & img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+  border-radius: 10px; /* Match the border-radius to the container */
+  overflow: hidden; /* Ensure the image doesn't overflow the container */
 `;
 
-const StyledH2 = styled.h2`
+const StyledContent = styled.div`
+  padding: 10px;
+  text-align: center;
+  width: 100%; /* Ensure the content takes the full width */
+`;
+
+const Title = styled.h2`
+  margin: 5px 0;
   color: #e19093;
-  text-decoration: none;
   font-weight: bold;
-  position: relative;
-  display: inline-block;
-  transition: color 0.3s ease-in-out;
+  font-size: 16px;
+`;
 
-  &::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #ffa500;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-  }
-
-  &:hover {
-    color: #ffc525;
-  }
+const Artist = styled.p`
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
 `;
 
 const CustomLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FavoriteButtonWrapper = styled.div`
+  margin-bottom: 10px;
 `;
 
 const ArtPiecePreview = ({ slug, image, title, artist }) => {
@@ -82,22 +75,24 @@ const ArtPiecePreview = ({ slug, image, title, artist }) => {
     (artPiece) => artPiece.slug === slug
   )?.isFavorite;
 
-  console.log("API ArtPiecePreview", artPiecesInfo);
-
   return (
-    <StyledDiv>
+    <StyledContainer>
       <CustomLink href={`/art-pieces/${slug}`}>
         <ImageWrapper>
-          <Image src={image} alt={title} layout="fill" />
+          <Image src={image} alt={title} layout="fill" objectFit="cover" />
         </ImageWrapper>
-        <StyledH2>{title}</StyledH2>
-        <p>By {artist}</p>
+        <StyledContent>
+          <Title>{title}</Title>
+          <Artist>By {artist}</Artist>
+        </StyledContent>
       </CustomLink>
-      <FavoriteButton
-        isFavorite={isFavorite}
-        toggleFavorite={() => toggleFavorite(slug)}
-      />
-    </StyledDiv>
+      <FavoriteButtonWrapper>
+        <FavoriteButton
+          isFavorite={isFavorite}
+          toggleFavorite={() => toggleFavorite(slug)}
+        />
+      </FavoriteButtonWrapper>
+    </StyledContainer>
   );
 };
 
