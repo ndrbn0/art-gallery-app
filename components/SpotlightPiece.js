@@ -44,8 +44,8 @@ const SpotlightPiece = ({ piece }) => {
         <Image
           src={piece.imageSource}
           alt={piece.name}
-          width={400}
-          height={400}
+          width={260} // Fixed size
+          height={260} // Fixed size
           layout="responsive"
         />
       </ImageWrapper>
