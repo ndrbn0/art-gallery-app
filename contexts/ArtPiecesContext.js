@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import useSWR from "swr";
 
 const ArtPiecesContext = createContext();
@@ -19,22 +25,20 @@ export const ArtPiecesProvider = ({ children }) => {
     if (data) setArtPieces(data);
   }, [data]);
 
-  const toggleFavorite = (slug) => {
-    const foundArtPiece = artPiecesInfo.find(
-      (artPiece) => slug === artPiece.slug
-    );
-    if (foundArtPiece) {
-      setArtPiecesInfo(
-        artPiecesInfo.map((artPiece) =>
+  const toggleFavorite = useCallback((slug) => {
+    setArtPiecesInfo((prevInfo) => {
+      const foundArtPiece = prevInfo.find((artPiece) => artPiece.slug === slug);
+      if (foundArtPiece) {
+        return prevInfo.map((artPiece) =>
           artPiece.slug === slug
             ? { ...artPiece, isFavorite: !artPiece.isFavorite }
             : artPiece
-        )
-      );
-    } else {
-      setArtPiecesInfo([...artPiecesInfo, { slug, isFavorite: true }]);
-    }
-  };
+        );
+      } else {
+        return [...prevInfo, { slug, isFavorite: true }];
+      }
+    });
+  }, []);
 
   return (
     <ArtPiecesContext.Provider
