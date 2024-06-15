@@ -2,6 +2,8 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
+import CommentForm from "./CommentForm";
+import Comments from "./Comments";
 import { useArtPieces } from "../contexts/ArtPiecesContext";
 
 const DetailsContainer = styled.div`
@@ -44,12 +46,15 @@ const BackButton = styled(Link)`
 `;
 
 const ArtPieceDetails = ({ image, title, artist, year, genre, slug }) => {
-  const { artPiecesInfo, toggleFavorite } = useArtPieces();
-  const isFavorite = artPiecesInfo.find(
-    (artPiece) => artPiece.slug === slug
-  )?.isFavorite;
+  const { artPiecesInfo, toggleFavorite, addComment } = useArtPieces();
+  const artPieceInfo = artPiecesInfo.find((artPiece) => artPiece.slug === slug);
+  const isFavorite = artPieceInfo?.isFavorite;
+  const comments = artPieceInfo?.comments || [];
 
-  console.log("API ArtPieceDetails: ", artPiecesInfo, isFavorite);
+  const handleAddComment = (commentText) => {
+    const newComment = { text: commentText, date: new Date().toISOString() };
+    addComment(slug, newComment);
+  };
 
   return (
     <DetailsContainer>
@@ -65,6 +70,8 @@ const ArtPieceDetails = ({ image, title, artist, year, genre, slug }) => {
         isFavorite={isFavorite}
         toggleFavorite={() => toggleFavorite(slug)}
       />
+      <Comments comments={comments} />
+      <CommentForm onSubmitComment={handleAddComment} />
     </DetailsContainer>
   );
 };

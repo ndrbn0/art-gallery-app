@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useCallback,
-} from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 
 const ArtPiecesContext = createContext();
@@ -25,24 +19,49 @@ export const ArtPiecesProvider = ({ children }) => {
     if (data) setArtPieces(data);
   }, [data]);
 
-  const toggleFavorite = useCallback((slug) => {
-    setArtPiecesInfo((prevInfo) => {
-      const foundArtPiece = prevInfo.find((artPiece) => artPiece.slug === slug);
-      if (foundArtPiece) {
-        return prevInfo.map((artPiece) =>
+  const toggleFavorite = (slug) => {
+    const foundArtPiece = artPiecesInfo.find(
+      (artPiece) => slug === artPiece.slug
+    );
+    if (foundArtPiece) {
+      setArtPiecesInfo(
+        artPiecesInfo.map((artPiece) =>
           artPiece.slug === slug
             ? { ...artPiece, isFavorite: !artPiece.isFavorite }
             : artPiece
-        );
-      } else {
-        return [...prevInfo, { slug, isFavorite: true }];
-      }
-    });
-  }, []);
+        )
+      );
+    } else {
+      setArtPiecesInfo([
+        ...artPiecesInfo,
+        { slug, isFavorite: true, comments: [] },
+      ]);
+    }
+  };
+
+  const addComment = (slug, comment) => {
+    const foundArtPiece = artPiecesInfo.find(
+      (artPiece) => slug === artPiece.slug
+    );
+    if (foundArtPiece) {
+      setArtPiecesInfo(
+        artPiecesInfo.map((artPiece) =>
+          artPiece.slug === slug
+            ? { ...artPiece, comments: [...artPiece.comments, comment] }
+            : artPiece
+        )
+      );
+    } else {
+      setArtPiecesInfo([
+        ...artPiecesInfo,
+        { slug, isFavorite: false, comments: [comment] },
+      ]);
+    }
+  };
 
   return (
     <ArtPiecesContext.Provider
-      value={{ artPieces, artPiecesInfo, error, toggleFavorite }}
+      value={{ artPieces, artPiecesInfo, error, toggleFavorite, addComment }}
     >
       {children}
     </ArtPiecesContext.Provider>
