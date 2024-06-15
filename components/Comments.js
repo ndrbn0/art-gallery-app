@@ -6,24 +6,33 @@ const CommentList = styled.ul`
 `;
 
 const CommentItem = styled.li`
-  padding: 10px;
+  padding: 5px;
   border-bottom: 1px solid #ccc;
 `;
 
 const CommentText = styled.p`
-  margin: 5px 0;
+  margin-top: 5px;
 `;
 
 const CommentDate = styled.span`
   font-size: 12px;
   color: #999;
 `;
+const StyledH3 = styled.h3`
+  margin-top: 30px;
+  text-align: center;
+`;
 
 const Comments = ({ comments }) => {
+  // Check if comments is undefined or null
+  if (!comments || !comments.length) {
+    return <div>No comments yet.</div>;
+  }
+
   return (
     <div>
-      <h3>Comments</h3>
       <CommentList>
+        <StyledH3>Comments</StyledH3>
         {comments.map((comment, index) => (
           <CommentItem key={index}>
             <CommentText>{comment.text}</CommentText>
