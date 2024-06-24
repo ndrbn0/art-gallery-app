@@ -1,11 +1,13 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
+import { useArtPieces } from "@/contexts/ArtPiecesContext";
 
-const StyledDiv = styled.div`
-  gap: 10px;
-  padding: 20px;
-  margin: 20px; // Adjusted margin to make spacing more consistent
+const StyledContainer = styled.div`
+  width: 300px;
+  height: 380px;
+  margin: 20px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -13,8 +15,8 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 0 0 300px; // Fixed size
-  height: 400px; // Fixed size
+  overflow: hidden;
+  position: relative;
 
   &:hover {
     transform: scale(1.05);
@@ -23,36 +25,74 @@ const StyledDiv = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  width: 100%;
-  max-width: 260px; // Fixed size
-  height: 260px; // Fixed size
+  width: calc(100% - 20px);
+  height: 60%;
+  padding: 10px;
+  box-sizing: border-box;
+  position: relative;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+const StyledContent = styled.div`
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+`;
+
+const Title = styled.h2`
+  margin: 5px 0;
+  color: #e19093;
+  font-weight: bold;
+  font-size: 16px;
+`;
+
+const Artist = styled.p`
+  margin: 5px 0;
+  color: #555;
+  font-size: 14px;
 `;
 
 const CustomLink = styled(Link)`
   text-decoration: none;
   color: inherit;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 10px;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const FavoriteButtonWrapper = styled.div`
+  margin-bottom: 10px;
 `;
 
 const ArtPiecePreview = ({ slug, image, title, artist }) => {
+  const { toggleFavorite, artPiecesInfo } = useArtPieces();
+
+  const isFavorite = artPiecesInfo.find(
+    (artPiece) => artPiece.slug === slug
+  )?.isFavorite;
+
   return (
-    <CustomLink href={`/art-pieces/${slug}`} passHref>
-      <StyledDiv>
+    <StyledContainer>
+      <CustomLink href={`/art-pieces/${slug}`}>
         <ImageWrapper>
-          <Image
-            src={image}
-            alt={title}
-            width={260}
-            height={260}
-            layout="responsive"
-          />
+          <Image src={image} alt={title} layout="fill" objectFit="cover" />
         </ImageWrapper>
-        <h2>{title}</h2>
-        <p>By {artist}</p>
-      </StyledDiv>
-    </CustomLink>
+        <StyledContent>
+          <Title>{title}</Title>
+          <Artist>By {artist}</Artist>
+        </StyledContent>
+      </CustomLink>
+      <FavoriteButtonWrapper>
+        <FavoriteButton
+          isFavorite={isFavorite}
+          toggleFavorite={() => toggleFavorite(slug)}
+        />
+      </FavoriteButtonWrapper>
+    </StyledContainer>
   );
 };
 

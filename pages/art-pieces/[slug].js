@@ -21,6 +21,7 @@ const ArtPieceDetailPage = () => {
       artist={artPiece.artist}
       year={artPiece.year}
       genre={artPiece.genre}
+      slug={artPiece.slug}
     />
   );
 };

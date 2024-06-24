@@ -1,6 +1,8 @@
 import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
+import FavoriteButton from "./FavoriteButton";
+import { useArtPieces } from "../contexts/ArtPiecesContext";
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -13,8 +15,9 @@ const DetailsContainer = styled.div`
 
 const ImageWrapper = styled.div`
   width: 100%;
-  max-width: 300px; // Fixed size
-  height: 300px; // Fixed size
+  max-width: 400px;
+  height: auto;
+  aspect-ratio: 1 / 1;
   margin-bottom: 20px;
   border-radius: 10px;
   overflow: hidden;
@@ -31,36 +34,23 @@ const BackButton = styled(Link)`
   align-self: flex-start;
   margin-bottom: 20px;
   color: #e19093;
-  text-decoration: none; // Remove underline
+  text-decoration: none;
   font-weight: bold;
-  position: relative;
-  display: inline-block;
-  transition: color 0.3s ease-in-out;
-
-  &::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: #ffa500;
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-  }
+  transition: color 0.3s ease;
 
   &:hover {
     color: #ffc525;
   }
-
-  &:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
 `;
 
-const ArtPieceDetails = ({ image, title, artist, year, genre }) => {
+const ArtPieceDetails = ({ image, title, artist, year, genre, slug }) => {
+  const { artPiecesInfo, toggleFavorite } = useArtPieces();
+  const isFavorite = artPiecesInfo.find(
+    (artPiece) => artPiece.slug === slug
+  )?.isFavorite;
+
+  console.log("API ArtPieceDetails: ", artPiecesInfo, isFavorite);
+
   return (
     <DetailsContainer>
       <BackButton href="/art-pieces">← Back to Art Pieces</BackButton>
@@ -68,15 +58,13 @@ const ArtPieceDetails = ({ image, title, artist, year, genre }) => {
         <Image src={image} alt={title} layout="fill" />
       </ImageWrapper>
       <h2>{title}</h2>
-      <p>
-        <strong>Artist:</strong> {artist}
-      </p>
-      <p>
-        <strong>Year:</strong> {year}
-      </p>
-      <p>
-        <strong>Genre:</strong> {genre}
-      </p>
+      <p>By {artist}</p>
+      <p>{year}</p>
+      <p>{genre}</p>
+      <FavoriteButton
+        isFavorite={isFavorite}
+        toggleFavorite={() => toggleFavorite(slug)}
+      />
     </DetailsContainer>
   );
 };

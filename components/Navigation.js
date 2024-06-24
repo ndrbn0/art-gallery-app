@@ -44,6 +44,7 @@ const Navigation = () => {
     <Nav>
       <StyledLink href="/art-pieces">Pieces</StyledLink>
       <StyledLink href="/">Spotlight</StyledLink>
+      <StyledLink href="/art-pieces-favorites">Favorite</StyledLink>
     </Nav>
   );
 };
