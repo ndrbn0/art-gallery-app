@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useCallback } from "react";
 import Image from "next/image";
 import styled from "styled-components";
 import FavoriteButton from "./FavoriteButton";
@@ -59,6 +59,10 @@ const SpotlightPiece = ({ piece }) => {
     [piece.imageSource, piece.name]
   );
 
+  const handleToggleFavorite = useCallback(() => {
+    toggleFavorite(piece.slug);
+  }, [piece.slug, toggleFavorite]);
+
   return (
     <SpotlightContainer>
       <ImageWrapper>{memoizedImage}</ImageWrapper>
@@ -66,7 +70,7 @@ const SpotlightPiece = ({ piece }) => {
       <ArtistName>By {piece.artist}</ArtistName>
       <FavoriteButton
         isFavorite={isFavorite}
-        toggleFavorite={() => toggleFavorite()}
+        toggleFavorite={handleToggleFavorite}
       />
     </SpotlightContainer>
   );

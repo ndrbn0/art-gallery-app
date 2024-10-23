@@ -2,7 +2,18 @@ import Image from "next/image";
 import styled from "styled-components";
 import Link from "next/link";
 import FavoriteButton from "./FavoriteButton";
+import CommentForm from "./CommentForm";
+import Comments from "./Comments";
 import { useArtPieces } from "../contexts/ArtPiecesContext";
+
+const ColorSwatch = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: ${(props) => props.color};
+  margin-right: 10px;
+  display: flex;
+`;
 
 const DetailsContainer = styled.div`
   display: flex;
@@ -43,13 +54,22 @@ const BackButton = styled(Link)`
   }
 `;
 
-const ArtPieceDetails = ({ image, title, artist, year, genre, slug }) => {
-  const { artPiecesInfo, toggleFavorite } = useArtPieces();
-  const isFavorite = artPiecesInfo.find(
-    (artPiece) => artPiece.slug === slug
-  )?.isFavorite;
+const ArtPieceDetails = ({
+  image,
+  title,
+  artist,
+  year,
+  genre,
+  slug,
+  colors,
+}) => {
+  const { artPiecesInfo, addComment } = useArtPieces();
+  const artPieceInfo = artPiecesInfo.find((artPiece) => artPiece.slug === slug);
+  const comments = artPieceInfo?.comments || [];
 
-  console.log("API ArtPieceDetails: ", artPiecesInfo, isFavorite);
+  const handleAddComment = (commentText) => {
+    addComment(slug, { text: commentText, date: new Date().toISOString() });
+  };
 
   return (
     <DetailsContainer>
@@ -61,10 +81,15 @@ const ArtPieceDetails = ({ image, title, artist, year, genre, slug }) => {
       <p>By {artist}</p>
       <p>{year}</p>
       <p>{genre}</p>
-      <FavoriteButton
-        isFavorite={isFavorite}
-        toggleFavorite={() => toggleFavorite(slug)}
-      />
+      <FavoriteButton slug={slug} />
+      <h3>Color Palette</h3>
+      <div>
+        {colors.map((color, index) => (
+          <ColorSwatch key={index} color={color} />
+        ))}
+      </div>
+      <Comments comments={comments} />
+      <CommentForm onSubmitComment={handleAddComment} />
     </DetailsContainer>
   );
 };

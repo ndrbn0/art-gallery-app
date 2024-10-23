@@ -22,6 +22,7 @@ const ArtPieceDetailPage = () => {
       year={artPiece.year}
       genre={artPiece.genre}
       slug={artPiece.slug}
+      colors={artPiece.colors}
     />
   );
 };
